@@ -11,9 +11,10 @@ import org.testng.annotations.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.restassured.RestAssured.given;
-
+import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+import static specification.Specification.requestSpec;
+import static specification.Specification.responseSpec;
 
 public class ApiTests {
 
@@ -74,7 +75,7 @@ public class ApiTests {
 
     @Test
     public void fullTest() {
-        People people = new People("Katy", "Programmer");
+
         Resource resource = given()
                 .contentType("application/json")
                 .when()
@@ -85,5 +86,23 @@ public class ApiTests {
 
         resource.getData().forEach(x-> System.out.println(x.getEmail()));
     }
+
+    @Test
+    public void fullSpecTest() {
+
+        People people = new People("Roman", "QA");
+        PeopleCreated peopleCreated = given()
+                .spec(requestSpec())
+                .body(people)
+                .post("api/users")
+                .then()
+                .log().all()
+                .spec(responseSpec())
+                .extract().as(PeopleCreated.class);
+        System.out.println(peopleCreated.getCreatedAt());
+
+    }
+
+
 
 }
