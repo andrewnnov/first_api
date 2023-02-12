@@ -1,5 +1,7 @@
 package test.api;
 
+import data.People;
+import data.PeopleCreated;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -51,6 +53,23 @@ public class ApiTests {
                 , "Ожидали создание пользователя с именем "
                         + requestData.get("name")
                         + ", создался с именем" + jsonResponse.get("name"));
+    }
+
+    @Test
+    public void dtoTest() {
+        People people = new People("Katy", "Programmer");
+        PeopleCreated peopleCreated = given()
+                .contentType("application/json")
+                .body(people)
+                .when()
+                .post("https://reqres.in/api/users")
+                .then()
+                .log().body()
+                .extract().body().as(PeopleCreated.class);
+
+        System.out.println("___________________");
+        System.out.println(peopleCreated.getCreatedAt());
+
     }
 
 }
