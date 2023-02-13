@@ -1,5 +1,6 @@
 package specification;
 
+import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -24,5 +25,21 @@ public class Specification {
         return responseSpecification;
     }
 
+    public static void installSpec(RequestSpecification requestSpec) {
+        RestAssured.requestSpecification = requestSpec;
+    }
 
+    public static void installSpec(ResponseSpecification responseSpec) {
+        RestAssured.responseSpecification = responseSpec;
+    }
+
+    public static void installSpec(RequestSpecification requestSpec, ResponseSpecification responseSpec) {
+        RestAssured.requestSpecification = requestSpec;
+        RestAssured.responseSpecification = responseSpec;
+    }
+
+    public static void deleteSpec() {
+        RestAssured.requestSpecification = null;
+        RestAssured.responseSpecification = null;
+    }
 }

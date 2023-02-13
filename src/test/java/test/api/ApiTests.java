@@ -13,8 +13,7 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
-import static specification.Specification.requestSpec;
-import static specification.Specification.responseSpec;
+import static specification.Specification.*;
 
 public class ApiTests {
 
@@ -100,6 +99,22 @@ public class ApiTests {
                 .spec(responseSpec())
                 .extract().as(PeopleCreated.class);
         System.out.println(peopleCreated.getCreatedAt());
+
+    }
+
+    @Test
+    public void dtoSpecDefaultTest() {
+        installSpec(requestSpec(), responseSpec());
+        People people = new People("Roman", "QA");
+        PeopleCreated peopleCreated = given()
+                .body(people)
+                .when()
+                .post("api/users")
+                .then()
+                .log().all()
+                .extract().as(PeopleCreated.class);
+
+        deleteSpec();
 
     }
 
