@@ -82,7 +82,6 @@ public class ApiTests {
                 .then()
                 .log().body()
                 .extract().body().as(Resource.class);
-
         resource.getData().forEach(x-> System.out.println(x.getEmail()));
     }
 
@@ -99,7 +98,6 @@ public class ApiTests {
                 .spec(responseSpec())
                 .extract().as(PeopleCreated.class);
         System.out.println(peopleCreated.getCreatedAt());
-
     }
 
     @Test
@@ -115,9 +113,5 @@ public class ApiTests {
                 .extract().as(PeopleCreated.class);
 
         deleteSpec();
-
     }
-
-
-
 }
