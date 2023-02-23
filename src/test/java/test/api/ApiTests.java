@@ -5,6 +5,8 @@ import data.PeopleCreated;
 import data.Resource;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -14,8 +16,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.requestSpecification;
 import static org.hamcrest.CoreMatchers.*;
-import static specification.Specification.requestSpec;
-import static specification.Specification.responseSpec;
+import static specification.Specification.*;
 
 public class ApiTests {
 
@@ -100,8 +101,18 @@ public class ApiTests {
                 .extract().as(PeopleCreated.class);
         System.out.println("____________________________");
         System.out.println(peopleCreated.getCreatedAt());
-
-
     }
 
+    @Test
+    public void dtoSpecDefaultTest() {
+        installSpec(requestSpec(), responseSpec());
+        People people = new People("Andrew", "Tester");
+        PeopleCreated peopleCreated = given()
+                .body(people)
+                .post("api/users")
+                .then()
+                .log().all()
+                .extract().as(PeopleCreated.class);
+        deleteSpec();
+    }
 }
