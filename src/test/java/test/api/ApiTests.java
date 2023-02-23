@@ -12,7 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.requestSpecification;
 import static org.hamcrest.CoreMatchers.*;
+import static specification.Specification.requestSpec;
+import static specification.Specification.responseSpec;
 
 public class ApiTests {
 
@@ -82,13 +85,23 @@ public class ApiTests {
                 .log().body()
                 .extract().body().as(Resource.class);
         resource.getData().forEach(x-> System.out.println(x.getEmail()));
+    }
+
+    @Test
+    public void specificationUseTestPost() {
+        People people = new People("Marina", "Programmer");
+        PeopleCreated peopleCreated = given()
+                .spec(requestSpec())
+                .body(people)
+                .post("api/users")
+                .then()
+                .log().all()
+                .spec(responseSpec())
+                .extract().as(PeopleCreated.class);
+        System.out.println("____________________________");
+        System.out.println(peopleCreated.getCreatedAt());
 
 
     }
-
-
-
-
-
 
 }
