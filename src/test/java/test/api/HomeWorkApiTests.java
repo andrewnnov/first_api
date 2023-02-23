@@ -1,14 +1,13 @@
 package test.api;
 
-import data.ErrorMessage;
-import data.Register;
-import data.Resource;
-import data.TokenResponse;
+import data.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import static io.restassured.RestAssured.given;
 
@@ -67,4 +66,27 @@ public class HomeWorkApiTests {
         System.out.println(errorMessage.getError());
         Assert.assertEquals(errorMessage.getError(), "Missing password");
     }
+
+    @Test
+    public void fullTestColorSorted() {
+
+        ResourcesColor resourcesColor = given()
+                .when()
+                .get("https://reqres.in/api/unknown")
+                .then()
+                .log().body()
+                .extract().body().as(ResourcesColor.class);
+
+        resourcesColor.getData().forEach(x-> System.out.println(x.getYear()));
+
+        boolean isOrdered = true;
+        for (int i = 0; i < resourcesColor.getData().size() - 1; i++) {
+            if (resourcesColor.getData().get(i).getYear() >= resourcesColor.getData().get(i + 1).getYear()) {
+                isOrdered = false;
+            }
+        }
+        Assert.assertTrue(isOrdered, "Данные отсортированы по возрастанию");
+    }
+
+
 }
