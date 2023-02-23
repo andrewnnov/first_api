@@ -2,6 +2,7 @@ package test.api;
 
 import data.People;
 import data.PeopleCreated;
+import data.Resource;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -71,6 +72,21 @@ public class ApiTests {
         System.out.println(peopleCreated.getCreatedAt());
 
     }
+
+    @Test
+    public void fullTest() {
+        Resource resource = given()
+                .log().all()
+                .when().get("https://reqres.in/api/users?page=2")
+                .then()
+                .log().body()
+                .extract().body().as(Resource.class);
+        resource.getData().forEach(x-> System.out.println(x.getEmail()));
+
+
+    }
+
+
 
 
 
