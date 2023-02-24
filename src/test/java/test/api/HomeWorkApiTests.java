@@ -86,7 +86,11 @@ public class HomeWorkApiTests {
             }
         }
         Assert.assertTrue(isOrdered, "Данные отсортированы по возрастанию");
+        System.out.println("Add new information for test");
     }
 
-
+    @Test
+    public void testExampleForGit() {
+        System.out.println("Test Example + Amend");
+    }
 }
