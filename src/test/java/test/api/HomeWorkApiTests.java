@@ -91,7 +91,7 @@ public class HomeWorkApiTests {
 
     @Test
     public void testExampleForGit() {
-        System.out.print("Test Example + Amend");
+        System.out.print("Test Example + Amend321");
         System.out.println("Fix commit2334");
     }
 }
